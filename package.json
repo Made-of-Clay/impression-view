@@ -1,0 +1,29 @@
+{
+  "name": "threejs-starter-vite",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "dependencies": {
+    "lil-gui": "^0.21.0",
+    "stats.js": "^0.17.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/stats": "^0.16.30",
+    "@types/stats.js": "^0.17.4",
+    "@types/three": "^0.185.0",
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.72.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.2"
+  }
+}

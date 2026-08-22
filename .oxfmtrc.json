@@ -1,0 +1,19 @@
+{
+  "useTabs": false,
+  "tabWidth": 4,
+  "ignorePatterns": ["**/public/**"],
+  "overrides": [
+    {
+      "files": ["*.html", "*.json"],
+      "options": {
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": ["*.js", "*.ts"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}
