@@ -8,6 +8,10 @@
 
 - **Standard renderer setup:** Don't manually create a canvas. Use `new WebGLRenderer({...})`, call `renderer.setSize()`, append `renderer.domElement`.
 
+- **`video.play()` rejects on autoplay policy** even with a valid webcam stream. `VideoTexture` reads frames from the element directly, so fire play without await and catch silently: `video.play().catch(() => {})`.
+
+- **`ShaderMaterial` defaults to front-face only.** Use `side: DoubleSide` for rotating objects where back face becomes visible.
+
 ## Playwright for WebGL debugging
 
 The two WebGL `INVALID_OPERATION` warnings are **symptoms, not causes**. The actual shader error is logged by Three.js as `THREE.WebGLProgram: Shader Error` and is only visible in a real browser console. Playwright captures it:

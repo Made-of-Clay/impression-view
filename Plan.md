@@ -2,15 +2,16 @@
 
 Based on Tutorial.md and Transcript.md, this plan outlines the full implementation of a Three.js post-processing shader that transforms video or rendered scenes into animated painterly strokes.
 
-## Phase 0: Webcam Setup (NEW - Requirement)
+## Phase 0: Webcam Setup ✅
 
 - Initialize `VideoTexture` from `navigator.mediaDevices.getUserMedia()`
 - Configure texture with `flipY = true` (webcam default orientation)
-- Set autoUpdate = false for manual control
 - Wire webcam feed into Three.js scene as `tSource` uniform
 - Fallback: static test pattern if webcam unavailable
 - Performance: cap at 640x480 resolution for realtime frame rates
 - Handle user permission gracefully (denial state)
+- **Note**: `video.play()` can reject on autoplay policy; fire without await, catch with no-op
+- **Note**: `ShaderMaterial` needs `side: DoubleSide` for rotating planes
 
 ## Phase 1: Foundation (Tutorial.md Steps 1-3)
 
