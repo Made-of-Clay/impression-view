@@ -13,14 +13,14 @@
 The two WebGL `INVALID_OPERATION` warnings are **symptoms, not causes**. The actual shader error is logged by Three.js as `THREE.WebGLProgram: Shader Error` and is only visible in a real browser console. Playwright captures it:
 
 ```js
-import { chromium } from 'playwright';
-import { createServer } from 'vite';
+import { chromium } from "playwright";
+import { createServer } from "vite";
 
-const server = await createServer({ /* ... */ });
+const server = await createServer({/* ... */});
 await server.listen();
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
-page.on('console', msg => console.log(`[${msg.type()}] ${msg.text()}`));
-await page.goto(server.resolvedUrls.local[0], { waitUntil: 'networkidle' });
+page.on("console", (msg) => console.log(`[${msg.type()}] ${msg.text()}`));
+await page.goto(server.resolvedUrls.local[0], { waitUntil: "networkidle" });
 // ... screenshot, cleanup
 ```

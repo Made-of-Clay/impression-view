@@ -30,9 +30,9 @@ vec4 source = texture(tSource, vUv);
 
 In Three.js, this is typically done with…
 
-* `WebGLRenderTarget`
-* `EffectComposer`
-* a fullscreen post-processing pass
+- `WebGLRenderTarget`
+- `EffectComposer`
+- a fullscreen post-processing pass
 
 For video, use `VideoTexture`.
 
@@ -42,9 +42,9 @@ For video, use `VideoTexture`.
 
 The naive approach:
 
-* Generate random circles.
-* Sample the source color beneath each circle.
-* Accumulate circles over time.
+- Generate random circles.
+- Sample the source color beneath each circle.
+- Accumulate circles over time.
 
 The problem: drawing thousands of individual strokes is expensive.
 
@@ -60,10 +60,10 @@ float hash(vec2 p) {
 
 For each cell:
 
-* Generate one pseudo-random stroke position.
-* Animate that position with time.
-* Check the current cell plus its 8 neighbors.
-* Use the nearest point as the current stroke.
+- Generate one pseudo-random stroke position.
+- Animate that position with time.
+- Check the current cell plus its 8 neighbors.
+- Use the nearest point as the current stroke.
 
 That gives an effectively continuous field while each pixel only evaluates nine candidate strokes.
 
@@ -84,9 +84,9 @@ vec2 randomPoint(vec2 cell, float time) {
 
 The results:
 
-* Strokes shift over time.
-* The canvas continuously repaints.
-* You avoid explicitly drawing thousands of objects.
+- Strokes shift over time.
+- The canvas continuously repaints.
+- You avoid explicitly drawing thousands of objects.
 
 # Stroke Direction
 
@@ -199,10 +199,10 @@ mask = smoothstep(0.4, 0.7, mask);
 
 The brush texture can be:
 
-* Noise
-* Scratched metal
-* Fabric
-* A hand-painted grayscale brush texture
+- Noise
+- Scratched metal
+- Fabric
+- A hand-painted grayscale brush texture
 
 Add procedural distortion so every stroke is slightly different.
 
@@ -218,12 +218,12 @@ float curve  = random3;
 
 Use them to vary:
 
-* Length
-* Width
-* Curvature
-* Texture offset
-* Opacity
-* Rotation
+- Length
+- Width
+- Curvature
+- Texture offset
+- Opacity
+- Rotation
 
 Avoid completely random strokes. They should look like they were made with a consistent brush by a hurried human.
 
@@ -274,8 +274,8 @@ float detailMask = smoothstep(
 
 Then:
 
-* Low-detail areas → large strokes.
-* High-detail areas → small strokes.
+- Low-detail areas → large strokes.
+- High-detail areas → small strokes.
 
 Important: calculate the detail decision for **each Voronoi neighbor**, not just the final pixel. Otherwise neighboring Voronoi regions can produce visible discontinuities.
 
@@ -295,11 +295,11 @@ Then modify it.
 
 Possible controls:
 
-* Increase saturation.
-* Increase contrast.
-* Shift hues.
-* Push complementary colors.
-* Quantize to a limited palette.
+- Increase saturation.
+- Increase contrast.
+- Shift hues.
+- Push complementary colors.
+- Quantize to a limited palette.
 
 A simple palette-style function can produce controlled variation.
 
@@ -414,10 +414,10 @@ Use this to repaint primarily where movement occurs.
 
 This works especially well for:
 
-* Webcams
-* Static backgrounds
-* Green-screen scenes
-* Mostly still game environments
+- Webcams
+- Static backgrounds
+- Green-screen scenes
+- Mostly still game environments
 
 ## 17. Add Motion Ghosting
 
@@ -467,8 +467,8 @@ vec3 newColor = mix(
 
 For better results, sample along:
 
-* The stroke direction.
-* The perpendicular direction.
+- The stroke direction.
+- The perpendicular direction.
 
 ```glsl
 vec3 along = texture(
@@ -479,9 +479,9 @@ vec3 along = texture(
 
 This creates the illusion that:
 
-* Paint remains on the brush.
-* Paint smears along the stroke.
-* Adjacent strokes share pigment.
+- Paint remains on the brush.
+- Paint smears along the stroke.
+- Adjacent strokes share pigment.
 
 # Suggested Shader Architecture
 
@@ -560,7 +560,7 @@ Don't build everything at once.
 13. Add motion detection and ghosting.
 14. Add directional paint blending.
 
-**Core idea:** treat the effect less like rendering a filter and more like running a tiny, procedural painter every frame. The Voronoi field decides *where strokes are*, gradients decide *which way they go*, detail decides *how large they are*, and temporal buffers decide *when and how they repaint*.
+**Core idea:** treat the effect less like rendering a filter and more like running a tiny, procedural painter every frame. The Voronoi field decides _where strokes are_, gradients decide _which way they go_, detail decides _how large they are_, and temporal buffers decide _when and how they repaint_.
 
 | What          | Decides               |
 | ------------- | --------------------- |

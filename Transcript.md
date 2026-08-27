@@ -5,7 +5,7 @@ I Tried Making a Real-Time Painterly Renderer, Van Gogh Style](https://youtu.be/
 
 [Generated Tutorial](./Tutorial.md)
 
-----
+---
 
 ## Introduction
 
@@ -163,7 +163,7 @@ Incidentally, images of things like sunflowers and almond trees in their natural
 
 > NOTE: remaining content trimmed to focus on instruction vs game implementation steps. See original transcript below for more details.
 
------
+---
 
 ## Original Transcript w/ Timestamps from YouTube
 

@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 import {
-  Mesh,
-  PlaneGeometry,
-  ShaderMaterial,
-  WebGLRenderer,
-  Scene,
-  PerspectiveCamera,
-  Color,
-  Vector2,
+    Mesh,
+    PlaneGeometry,
+    ShaderMaterial,
+    WebGLRenderer,
+    Scene,
+    PerspectiveCamera,
+    Color,
+    Vector2,
 } from 'three';
+import { initWebcam, stopWebcam } from './webcam';
 import './style.css';
 
 const renderer = new WebGLRenderer({ antialias: true, alpha: true });
@@ -107,56 +108,79 @@ void main() {
 
 // Create a default white texture for when no webcam is available
 const defaultTexture = new THREE.DataTexture(
-  new Uint8Array([255, 255, 255, 255]), // 1x1 pixel, RGBA
-  1, 1,
-  THREE.RGBAFormat,
-  THREE.UnsignedByteType
+    new Uint8Array([255, 255, 255, 255]), // 1x1 pixel, RGBA
+    1,
+    1,
+    THREE.RGBAFormat,
+    THREE.UnsignedByteType,
 );
 defaultTexture.needsUpdate = true;
 
 const shaderMaterial = new ShaderMaterial({
-  vertexShader,
-  fragmentShader,
-  uniforms: {
-    tSource: { value: defaultTexture },
-    uResolution: { value: new Vector2() },
-    uTime: { value: 0 },
-  },
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+        tSource: { value: defaultTexture },
+        uResolution: { value: new Vector2() },
+        uTime: { value: 0 },
+    },
+    side: THREE.DoubleSide,
 });
 
 // Add a plane with the shader material
-const plane = new Mesh(
-  new PlaneGeometry(2, 2),
-  shaderMaterial
-);
+const plane = new Mesh(new PlaneGeometry(2, 2), shaderMaterial);
 plane.position.z = -1;
 scene.add(plane);
 
 window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 });
 
-// Simple animation loop
+let currentTexture: THREE.Texture = defaultTexture;
+
+async function init() {
+    try {
+        currentTexture = await initWebcam({
+            width: 640,
+            height: 480,
+            flipY: true,
+        });
+        shaderMaterial.uniforms.tSource.value = currentTexture;
+        console.log('Webcam texture initialized');
+    } catch (err) {
+        console.error('Failed to initialize webcam:', err);
+        shaderMaterial.uniforms.tSource.value = defaultTexture;
+    }
+}
+
 let lastTime = 0;
 function animate(time: number) {
-  requestAnimationFrame(animate);
-  const delta = time - lastTime;
-  lastTime = time;
+    requestAnimationFrame(animate);
+    const delta = time - lastTime;
+    lastTime = time;
 
-  // Update time uniform
-  shaderMaterial.uniforms.uTime.value = time * 0.001;
+    if (currentTexture instanceof THREE.VideoTexture) {
+        currentTexture.update();
+    }
 
-  // Update resolution uniform
-  shaderMaterial.uniforms.uResolution.value.set(
-    renderer.domElement.clientWidth,
-    renderer.domElement.clientHeight
-  );
+    shaderMaterial.uniforms.uTime.value = time * 0.001;
 
-  // Rotate plane slowly
-  plane.rotation.y += delta * 0.001;
+    shaderMaterial.uniforms.uResolution.value.set(
+        renderer.domElement.clientWidth,
+        renderer.domElement.clientHeight,
+    );
 
-  renderer.render(scene, camera);
+    plane.rotation.y += delta * 0.001;
+
+    renderer.render(scene, camera);
 }
-animate(0);
+
+window.addEventListener('beforeunload', () => {
+    stopWebcam(currentTexture);
+});
+
+init().then(() => {
+    animate(0);
+});

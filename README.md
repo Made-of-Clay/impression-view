@@ -26,7 +26,6 @@ pnpm dev
 - TypeScript
 - Vite
 
-
 ## CLI Commands
 
 Installation
@@ -63,7 +62,7 @@ Firebase is my current static hosting provider.
 
 - Create a site under the playground project.
 - run `firebase-tools init hosting:github` and follow the prompts
-  - might run `npm config get prefix` to find the bin if PATH isn't configured correctly
+    - might run `npm config get prefix` to find the bin if PATH isn't configured correctly
 - Ensure firebase.json `hosting.site` is entered correctly
 
 ### GitHub Actions

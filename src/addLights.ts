@@ -1,5 +1,5 @@
-import { AmbientLight, PointLight, PointLightHelper } from 'three'
-import { getGui } from './getGui'
+import { AmbientLight, PointLight, PointLightHelper } from 'three';
+import { getGui } from './getGui';
 import { getScene } from './getScene';
 
 export function addLights() {
