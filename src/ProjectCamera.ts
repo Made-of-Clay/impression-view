@@ -1,14 +1,11 @@
 import { PerspectiveCamera, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { getGui } from './getGui';
 import { resizeRendererToDisplaySize } from './helpers/responsiveness';
-import GUI from 'lil-gui';
 
 export class ProjectCamera {
     instance: PerspectiveCamera;
     #canvas: HTMLCanvasElement;
-    #cameraControls: OrbitControls
-    #cameraFolder: GUI;
+    #cameraControls: OrbitControls;
 
     constructor(canvas: HTMLCanvasElement) {
         this.#canvas = canvas;
@@ -16,10 +13,6 @@ export class ProjectCamera {
         this.instance.position.set(2, 2.5, 5.25);
         this.#cameraControls = new OrbitControls(this.instance, canvas);
         this.#cameraControls.enableDamping = true;
-
-        const gui = getGui();
-        // might add camera controls to set position better for each spot
-        this.#cameraFolder = gui.addFolder('Camera');
     }
 
     tick(renderer: WebGLRenderer) {
