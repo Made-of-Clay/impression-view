@@ -36,5 +36,5 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PLAYGROUND_47769 }}
           projectId: playground-47769
-          target: tjsj-REPLACE-ME
+          target: impression-view 
           channelId: live
