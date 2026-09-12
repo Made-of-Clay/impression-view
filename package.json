@@ -18,7 +18,7 @@
     "three": "^0.185.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.63.0",
     "@types/stats": "^0.16.30",
     "@types/stats.js": "^0.17.4",
     "@types/three": "^0.185.0",
